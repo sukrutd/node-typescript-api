@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "es2018",
+        "module": "commonjs",
+        "baseUrl": "./src",
+        "paths": {
+            "@/resources/*": ["resources/*"],
+            "@/middleware/*": ["middleware/*"],
+            "@/utils/*": ["utils/*"]
+        },
+        "outDir": "dist",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "strict": true
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": ["node_modules", "dist"]
+}
