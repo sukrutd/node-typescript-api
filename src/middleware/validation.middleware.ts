@@ -2,7 +2,7 @@ import { Request, Response, NextFunction, RequestHandler } from 'express';
 import Joi from 'joi';
 
 function validationMiddleware(schema: Joi.Schema): RequestHandler {
-    return async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    return async (req: Request, res: Response, next: NextFunction): Promise<Response | void> => {
         const validationOptions = {
             abortEarly: false,
             allowUnknown: true,
@@ -12,13 +12,11 @@ function validationMiddleware(schema: Joi.Schema): RequestHandler {
         try {
             const value = await schema.validateAsync(req.body, validationOptions);
             req.body = value;
-            next();
+            return next();
         } catch (err: any) {
             const errors: string[] = [];
-            err.details.forEach((error: Joi.ValidationErrorItem) => {
-                errors.push(error.message);
-            });
-            res.status(400).send({ errors });
+            err.details.forEach((error: Joi.ValidationErrorItem) => errors.push(error.message));
+            return res.status(400).send({ errors });
         }
     };
 }
